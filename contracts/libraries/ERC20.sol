@@ -354,9 +354,9 @@ contract ERC20Token is Context, IERC20, Ownable {
   string public _symbol;
   string public _name;
 
-  constructor() public {
-    _name = "Test WNT Token";
-    _symbol = "TWNT";
+  constructor(string memory name, string memory  symbol) public {
+    _name = name;
+    _symbol = symbol;
     _decimals = 18;
     _totalSupply = 31000000000000000000000000;
     _balances[msg.sender] = _totalSupply;
@@ -500,7 +500,7 @@ contract ERC20Token is Context, IERC20, Ownable {
    *
    * - `msg.sender` must be the token owner
    */
-  function mint(uint256 amount) public onlyOwner returns (bool) {
+  function mint(uint256 amount) external override onlyOwner returns (bool) {
     _mint(_msgSender(), amount);
     return true;
   }
@@ -508,7 +508,7 @@ contract ERC20Token is Context, IERC20, Ownable {
   /**
    * @dev Burn `amount` tokens and decreasing the total supply.
    */
-  function burn(uint256 amount) public returns (bool) {
+  function burn(uint256 amount) external returns (bool) {
     _burn(_msgSender(), amount);
     return true;
   }

@@ -2,7 +2,7 @@
 
 pragma solidity 0.7.0;
 interface IERC20 {
-    function transferOwnership(address newOwner); 
+    function mint(uint256 amount) external returns (bool);
     function symbol() external view returns (string memory);
 
     function name() external view returns (string memory);

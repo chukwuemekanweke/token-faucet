@@ -9,10 +9,6 @@ const { utils } = require("ethers");
 const PRIVATE_KEY_1 = process.env.PRIVATE_KEY_1;
 const PRIVATE_KEY_2 = process.env.PRIVATE_KEY_2;
 
-const PRIVATE_KEY_GANACHE_1 = process.env.PRIVATE_KEY_GANACHE_1;
-const PRIVATE_KEY_GANACHE_2 = process.env.PRIVATE_KEY_GANACHE_2;
-
-console.log({PRIVATE_KEY_GANACHE_1,PRIVATE_KEY_GANACHE_2})
 
 /**
  * @type import('hardhat/config').HardhatUserConfig

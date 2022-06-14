@@ -2,9 +2,14 @@
 pragma solidity 0.7.0;
 
 import "./libraries/SafeERC20.sol";
-import "./interfaces/IERC20.sol";
+import "./libraries/ReentrancyGuard.sol";
+import "./libraries/Ownable.sol";
 
-contract TokenFaucet is ReentrancyGuard, Ownable {
+import "./interfaces/IERC20.sol";
+import "hardhat/console.sol";
+
+
+contract TokenFaucet is ReentrancyGuard {
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
 
@@ -14,45 +19,34 @@ contract TokenFaucet is ReentrancyGuard, Ownable {
   
     event AssetAdded(address indexed token);
 
-    function getAssetInfo(address asset) external view returns (string, string, uint256, uint256)
+    function getAssetInfo(address asset) external view returns (string memory, string memory, uint256, uint256)
     {
         IERC20 token = IERC20(asset);
         uint256 totalSupply = token.totalSupply();
         uint256 decimals = token.decimals();
-        string name = token.name();
-        string symbol = token.symbol();
+        string memory name = token.name();
+        string memory symbol = token.symbol();
         return (name, symbol, decimals, totalSupply);
     }
 
-    function addAsset(address asset) external onlyOwner
+    function addAsset(address asset) external
     {
 
-        IERC20 token = IERC20(asset);
-
-        
-        require(!activatedAssets[asset],"Asset already added");
+        IERC20 token = IERC20(asset);        
+        require(!_activatedAssets[asset],"Asset already added");
 
         address tokenOwner = token.getOwner();
-        require (_msgSender()==tokenOwner, "Can only add assets you own");
+        require (msg.sender==tokenOwner, "Can only add assets you own");
 
-        (bool success, bytes memory result) = token.delegatecall(abi.encodeWithSignature(token.transferOwnership.selector,  _msgSender()));
-        require(success,"Asset ownerhsip could not be transferred");
-
-        uint256 ownerBalance = token.balanceOf(_msgSender());
-
-        (bool success2, bytes memory returndata) = token.delegatecall(abi.encodeWithSignature(token.transfer.selector,  _msgSender(), address(this), ownerBalance));
-        require(success2,"Asset transfer failed");
-
-         if (returndata.length > 0) {
-            require(abi.decode(returndata, (bool)), "SafeERC20: ERC20 operation did not succeed");
-        }
-
-        activatedAssets[asset] = true;
+        _activatedAssets[asset] = true;
         assets.push(asset);
+        emit AssetAdded(asset);
     }
 
     function disburseTokens(uint256 amount, address asset) external nonReentrant
     {
+        require(_activatedAssets[asset],"Asset not added to faucet");
+
         IERC20 token = IERC20(asset);
         uint256 balance = token.balanceOf(address(this));
 
@@ -60,7 +54,7 @@ contract TokenFaucet is ReentrancyGuard, Ownable {
           token.mint(amount);
         }
 
-        token.safeTransfer(_msgSender(),amount);
+        token.safeTransfer(msg.sender,amount);
     }
 
 }
