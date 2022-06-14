@@ -1,4 +1,4 @@
-# Wicrypt Device NFT
+# SwitchWallet Token Faucet
 
 ## Usage
 
