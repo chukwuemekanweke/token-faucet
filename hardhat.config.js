@@ -48,6 +48,14 @@ module.exports = {
       gas: 9992000000,
       blockGasLimit: 0x1fffffffffffff,    
     },
+    eth_goerli_testnet:{
+      url: "https://goerli.infura.io/v3/ab770ecbf2ab43d9926096cd1f63503a",
+      chainId: 5,
+      gasPrice: 20000000000,
+      accounts: [`${PRIVATE_KEY_1}`],
+      allowUnlimitedContractSize:true
+    },
+
     mainnet: {
       url: "https://matic-mainnet-full-rpc.bwarelabs.com",
       chainId: 137,
@@ -68,8 +76,8 @@ module.exports = {
   mocha: {
     timeout: 50000
   },
-  tenderly: {
-    project: process.env.TENDERLY_PROJECT,
-    username: process.env.TENDERLY_USERNAME,
-  },
+  // tenderly: {
+  //   project: process.env.TENDERLY_PROJECT,
+  //   username: process.env.TENDERLY_USERNAME,
+  // },
 };

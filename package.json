@@ -64,6 +64,7 @@
     "deploy": "npx hardhat run --network mainnet scripts/deploy.js",
     "deploy:testnet": "npx hardhat run --network testnet scripts/deploy.js",
     "deploy:polygon_testnet": "npx hardhat run --network polygon_testnet scripts/deploy.js",
+    "deploy:goerli_testnet": "npx hardhat run --network eth_goerli_testnet scripts/deploy.js",
     "deploy:localhost": "npx hardhat run --network localhost scripts/deploy.js",
     "deploy:fork": "npx hardhat run --network hardhat scripts/deploy.js",
     "lint": "yarn run lint:sol && yarn run prettier:check",
