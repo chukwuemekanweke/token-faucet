@@ -7,34 +7,38 @@ async function main() {
 
   const TokenContract = await ethers.getContractFactory("ERC20Token")
   const TokenFaucetContract = await ethers.getContractFactory("TokenFaucet");
+  console.log("started")
 
   const busd = await TokenContract.deploy("USD Tether", "BUSD");
   await busd.deployed();
+  console.log(`BUSD: ${busd.address}`);
 
   const usdc = await TokenContract.deploy("USD Tether Coin", "USDC");
   await usdc.deployed();
+  console.log(`USDC: ${usdc.address}`);
 
   const usdt = await TokenContract.deploy("USD Tether", "USDT");
   await usdt.deployed();
+  console.log(`USDT: ${usdt.address}`);
 
   const dai = await TokenContract.deploy("Dai", "DAI");
   await dai.deployed();
+  console.log(`DAI: ${dai.address}`);
+
 
   const xend = await TokenContract.deploy("Xend", "Xend");
   await xend.deployed();
+  console.log(`XEND: ${xend.address}`);
 
   const wnt = await TokenContract.deploy("Wicrypt Network Token", "WNT");
   await wnt.deployed();
+  console.log(`WNT: ${wnt.address}`);
+
 
   const faucetContract = await TokenFaucetContract.deploy();
   await faucetContract.deployed();
 
-  console.log(`BUSD: ${busd.address}`);
-  console.log(`USDC: ${usdc.address}`);
-  console.log(`USDT: ${usdt.address}`);
-  console.log(`DAI: ${dai.address}`);
-  console.log(`XEND: ${xend.address}`);
-  console.log(`WNT: ${wnt.address}`);
+  
   console.log(`Faucet Contract: ${faucetContract.address}`);
  
 
